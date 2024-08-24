@@ -51,7 +51,10 @@ if command_length > 2:
             if index_f == 0:
                 create_dir(current_directory, sys.argv[2:])
             elif index_f > 0 and index_f != command_length - 1:
-                new_directory = create_dir(current_directory, sys.argv[2:index_f])
+                new_directory = create_dir(
+                    current_directory,
+                    sys.argv[2:index_f]
+                )
                 create_file(new_directory, sys.argv[index_f + 1])
             else:
                 print(error_message)
