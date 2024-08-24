@@ -28,29 +28,36 @@ def create_file(current_dir: str, name_file: str) -> None:
         f.write("\n")
 
 
-if (len(sys.argv) > 2
-        and sys.argv[1] + sys.argv[2] != "-d-f"
-        and sys.argv[-1] != "-f"):
+error_message = ("Enter correctly command please:\n"
+                 "[-d dir1 [dir2..]] for create directory\n"
+                 "[-f file.txt] for create file \n"
+                 "[-d dir1 dir2..] [-f file.txt] for create directory "
+                 "and file in this directory")
 
-    flag = sys.argv[1]
-    current_directory = os.path.dirname(sys.argv[0])
+command_length = len(sys.argv)
 
-    if flag == "-d" and sys.argv[2:]:
-        if "-f" not in sys.argv[2:]:
-            create_dir(current_directory, sys.argv[2:])
-        elif sys.argv[-2] == "-f":
-            index_f = sys.argv.index("-f", 2)
-            new_directory = create_dir(current_directory, sys.argv[2:index_f])
-            create_file(new_directory, sys.argv[-1])
+if command_length > 2:
+    index_d = sys.argv.index("-d") if "-d" in sys.argv else 0
+    index_f = sys.argv.index("-f") if "-f" in sys.argv else 0
 
-    if flag == "-f" and sys.argv[-1] != "-f":
-        create_file(current_directory, sys.argv[-1])
+    if ((index_f == 0 and index_d == 0)
+            or (index_f < index_d and index_f != 0)
+            or (index_f == index_d + 1 and index_d != 0)):
+        print(error_message)
+    else:
+        current_directory = os.path.dirname(sys.argv[0])
+
+        if index_d > 0 and index_d != command_length - 1:
+            if index_f == 0:
+                create_dir(current_directory, sys.argv[2:])
+            elif index_f > 0 and index_f != command_length - 1:
+                new_directory = create_dir(current_directory, sys.argv[2:index_f])
+                create_file(new_directory, sys.argv[index_f + 1])
+            else:
+                print(error_message)
+
+        elif index_f > 0 and index_f != command_length - 1 and index_d == 0:
+            create_file(current_directory, sys.argv[index_f + 1])
 
 else:
-    print(
-        "Enter correctly command please:\n",
-        "[-d dir1 [dir2..]] for create directory\n",
-        "[-f file.txt] for create file \n",
-        "[-d dir1 dir2..] [-f file.txt] for create directory ",
-        "and file in this directory"
-    )
+    print(error_message)
