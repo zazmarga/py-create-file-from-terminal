@@ -17,7 +17,7 @@ def create_file(current_dir: str, name_file: str) -> None:
 
     with open(f"{file_path}", "a") as f:
         current_time = datetime.datetime.now()
-        f.write(f"{str(current_time).split(".")[0]}\n")  # 2022-02-01 14:41:10
+        f.write(f"{str(current_time).split('.')[0]}\n")  # 2022-02-01 14:41:10
         number_line = 0
         while True:
             line = input("Enter content line: ")
