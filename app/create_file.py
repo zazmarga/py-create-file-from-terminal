@@ -41,25 +41,30 @@ if command_length > 2:
     index_f = sys.argv.index("-f") if "-f" in sys.argv else 0
 
     if ((index_f == 0 and index_d == 0)
-            or (index_f < index_d and index_f != 0)
+            or (index_d == index_f + 1 and index_f != 0)
             or (index_f == index_d + 1 and index_d != 0)):
         print(error_message)
     else:
         current_directory = os.path.dirname(sys.argv[0])
 
-        if index_d > 0 and index_d != command_length - 1:
-            if index_f == 0:
-                create_dir(current_directory, sys.argv[2:])
-            elif index_f > 0 and index_f != command_length - 1:
+        if index_d > 0:
+            if index_f == 0 and index_d != command_length - 1:
+                create_dir(current_directory, sys.argv[index_d + 1:])
+            elif index_d < index_f != command_length - 1:
                 new_directory = create_dir(
                     current_directory,
-                    sys.argv[2:index_f]
+                    sys.argv[index_d + 1:index_f]
                 )
+                create_file(new_directory, sys.argv[index_f + 1])
+            elif index_f < index_d != command_length - 1:
+                new_directory = create_dir(
+                    current_directory,
+                    sys.argv[index_d + 1:])
                 create_file(new_directory, sys.argv[index_f + 1])
             else:
                 print(error_message)
 
-        elif index_f > 0 and index_f != command_length - 1 and index_d == 0:
+        elif command_length - 1 != index_f > 0 == index_d:
             create_file(current_directory, sys.argv[index_f + 1])
 
 else:
