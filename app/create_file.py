@@ -65,5 +65,5 @@ def create_file_from_terminal() -> None:
             create_file(current_directory, sys.argv[index_f + 1])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     create_file_from_terminal()
