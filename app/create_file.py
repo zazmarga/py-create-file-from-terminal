@@ -25,48 +25,45 @@ def create_file(current_dir: str, name_file: str) -> None:
         f.write("\n")
 
 
-def get_data_from_terminal() -> None:
-    error_message = ("Enter correctly command please:\n"
-                     "[-d dir1 [dir2..]] for create directory\n"
-                     "[-f file.txt] for create file \n"
-                     "[-d dir1 dir2..] [-f file.txt] for create directory "
-                     "and file in this directory")
+def create_file_from_terminal() -> None:
 
+    error_message = (
+        "Enter correctly command please:\n"
+        "[-d dir1 [dir2..]] for create directory\n"
+        "[-f file.txt] for create file \n"
+        "[-d dir1 dir2..] [-f file.txt] for create directory "
+        "and file in this directory"
+    )
     command_length = len(sys.argv)
-
-    if command_length > 2:
-        index_d = sys.argv.index("-d") if "-d" in sys.argv else 0
-        index_f = sys.argv.index("-f") if "-f" in sys.argv else 0
-
-        if ((index_f == 0 and index_d == 0)
-                or (index_d == index_f + 1 and index_f != 0)
-                or (index_f == index_d + 1 and index_d != 0)):
-            print(error_message)
-        else:
-            current_directory = os.path.dirname(sys.argv[0])
-
-            if index_d > 0:
-                if index_f == 0 and index_d != command_length - 1:
-                    create_dir(current_directory, sys.argv[index_d + 1:])
-                elif index_d < index_f != command_length - 1:
-                    new_directory = create_dir(
-                        current_directory,
-                        sys.argv[index_d + 1:index_f]
-                    )
-                    create_file(new_directory, sys.argv[index_f + 1])
-                elif index_f < index_d != command_length - 1:
-                    new_directory = create_dir(
-                        current_directory,
-                        sys.argv[index_d + 1:])
-                    create_file(new_directory, sys.argv[index_f + 1])
-                else:
-                    print(error_message)
-
-            elif command_length - 1 != index_f > 0 == index_d:
-                create_file(current_directory, sys.argv[index_f + 1])
-
-    else:
+    index_d = sys.argv.index("-d") if "-d" in sys.argv else 0
+    index_f = sys.argv.index("-f") if "-f" in sys.argv else 0
+    if (
+            (index_f == 0 and index_d == 0)
+            or (index_d == index_f + 1 and index_f != 0)
+            or (index_f == index_d + 1 and index_d != 0)
+    ):
         print(error_message)
+    else:
+        current_directory = os.path.dirname(sys.argv[0])
+        if index_d > 0:
+            if index_f == 0 and index_d != command_length - 1:
+                create_dir(current_directory, sys.argv[index_d + 1:])
+            elif index_d < index_f != command_length - 1:
+                new_directory = create_dir(
+                    current_directory,
+                    sys.argv[index_d + 1:index_f]
+                )
+                create_file(new_directory, sys.argv[index_f + 1])
+            elif index_f < index_d != command_length - 1:
+                new_directory = create_dir(
+                    current_directory,
+                    sys.argv[index_d + 1:])
+                create_file(new_directory, sys.argv[index_f + 1])
+            else:
+                print(error_message)
+        elif command_length - 1 != index_f > 0 == index_d:
+            create_file(current_directory, sys.argv[index_f + 1])
 
 
-get_data_from_terminal()
+if __name__ == '__main__':
+    create_file_from_terminal()
